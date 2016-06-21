@@ -1,0 +1,733 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="express4,node.js," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="从0开始用Express盲点到底http中的post请求分为几种？HTTP/1.1协议（明显我就从来没看过）规定HTTP请求有 OPTIONS、GET、HEAD、POST、PUT、DELETE、TRACE、CONNECT 这几种，但是平常说实话也就用到 get 和 post。  
+get 还好理解，无非是参数跟在url后头传递，通过 ? 来分割 url 和 params，不过这里会不会也有坑。可是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Express4xx不懂（一）">
+<meta property="og:url" content="http://yoursite.com/2016/06/19/Express4xx不懂（一）/index.html">
+<meta property="og:site_name" content="Re的废话流">
+<meta property="og:description" content="从0开始用Express盲点到底http中的post请求分为几种？HTTP/1.1协议（明显我就从来没看过）规定HTTP请求有 OPTIONS、GET、HEAD、POST、PUT、DELETE、TRACE、CONNECT 这几种，但是平常说实话也就用到 get 和 post。  
+get 还好理解，无非是参数跟在url后头传递，通过 ? 来分割 url 和 params，不过这里会不会也有坑。可是">
+<meta property="og:updated_time" content="2016-06-19T16:25:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Express4xx不懂（一）">
+<meta name="twitter:description" content="从0开始用Express盲点到底http中的post请求分为几种？HTTP/1.1协议（明显我就从来没看过）规定HTTP请求有 OPTIONS、GET、HEAD、POST、PUT、DELETE、TRACE、CONNECT 这几种，但是平常说实话也就用到 get 和 post。  
+get 还好理解，无非是参数跟在url后头传递，通过 ? 来分割 url 和 params，不过这里会不会也有坑。可是">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/06/19/Express4xx不懂（一）/"/>
+
+  <title> Express4xx不懂（一） | Re的废话流 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Re的废话流</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Express4xx不懂（一）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-19T10:48:07+08:00" content="2016-06-19">
+              2016-06-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/学习/" itemprop="url" rel="index">
+                    <span itemprop="name">学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/学习/back-end/" itemprop="url" rel="index">
+                    <span itemprop="name">back-end</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/学习/back-end/node-js/" itemprop="url" rel="index">
+                    <span itemprop="name">node.js</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/学习/back-end/node-js/Express4/" itemprop="url" rel="index">
+                    <span itemprop="name">Express4</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="从0开始用Express"><a href="#从0开始用Express" class="headerlink" title="从0开始用Express"></a>从0开始用Express</h1><h2 id="盲点"><a href="#盲点" class="headerlink" title="盲点"></a>盲点</h2><h3 id="到底http中的post请求分为几种？"><a href="#到底http中的post请求分为几种？" class="headerlink" title="到底http中的post请求分为几种？"></a>到底http中的post请求分为几种？</h3><p><a href="http://www.ietf.org/rfc/rfc2616.txt" target="_blank" rel="external">HTTP/1.1协议</a>（明显我就从来没看过）规定HTTP请求有 OPTIONS、GET、HEAD、POST、PUT、DELETE、TRACE、CONNECT 这几种，但是平常说实话也就用到 <strong>get</strong> 和 <strong>post</strong>。  </p>
+<p><strong>get</strong> 还好理解，无非是参数跟在url后头传递，通过 <code>?</code> 来分割 <code>url</code> 和 <code>params</code>，不过这里会不会也有<a href="http://www.baidu.com/s?wd=get请求方式" target="_blank" rel="external">坑</a>。可是 <strong>post</strong> 就没那么简单，今天在用Express来获取 <strong>post</strong> 参数时，才发现 <strong>post</strong> 提交数据是有几种方式的，记录下（全部来源网络东瞅西瞄）。</p>
+<p>HTTP 协议是以 ASCII 码传输，建立在 TCP/IP 协议之上的应用层规范。规范把 HTTP 请求分为三个部分：状态行、请求头、消息主体。<br>请求格式如下：  </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">request-line</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">headers</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">blank</span> <span class="attr">line</span>&gt;</span></span><br><span class="line">[<span class="tag">&lt;<span class="name">request-body</span>&gt;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--</span><br><span class="line">说明:</span><br><span class="line">第一行必须是一个请求行(request-line),用来说明请求类型,要访问的资源以及所使用的HTTP版本</span><br><span class="line">紧接着是一个首部(header)小节,用来说明服务器要使用的附加信息</span><br><span class="line">之后是一个空行</span><br><span class="line">再后面可以添加任意的其他数据[称之为主体(body)]</span><br><span class="line">--&gt;</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>举例说明：  </p>
+<ul>
+<li>get请求  </li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">GET / HTTP/1.1</span><br><span class="line">Host: www.google.cn</span><br><span class="line">Accept: */*</span><br><span class="line">Accept-Language: zh-cn</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 2.0.50727; .NET CLR 3.0.04506.648; .NET CLR 3.5.21022)Connection: Keep-Alive</span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--</span><br><span class="line">说明:</span><br><span class="line">第1行：分为三部分，以空格为分隔符。第一部分说明了该请求是一个GET请求；第二部分是一个斜杠(/)，说明请求的相对路径， Host 部分第2行提供。第三部分说明使用的是HTTP1.1版本(另一个可选荐是1.0).</span><br><span class="line">第2行：是请求的第一个首部， Host 将指出请求的目的地。User-Agent,服务器端和客户端脚本都能访问它，它是浏览器类型检测逻辑的重要基础。该信息由你的浏览器来定义,并且在每个请求中自动发送.Connection,通常将浏览器操作设置为Keep-Alive</span><br><span class="line">第3行：空行，即使不存在请求主体，这个空行也是必需的。</span><br><span class="line">--&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>post请求</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP1.1</span><br><span class="line">Host:www.google.cn</span><br><span class="line">User-Agent:Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 2.0.50727; .NET CLR 3.0.04506.648; .NET CLR 3.5.21022)</span><br><span class="line">Content-Type:application/x-www-form-urlencoded</span><br><span class="line">Content-Length:40</span><br><span class="line">Connection: Keep-Alive</span><br><span class="line"></span><br><span class="line">name=Professional%20Ajax&amp;publisher=Wiley</span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--</span><br><span class="line">说明：</span><br><span class="line">第1行：请求行开始处的GET改为POST,以表示不同的请求类型。</span><br><span class="line">第2行：Content-Type说明了请求主体的内容是如何编码的.浏览器始终以application/x-www-form-urlencoded的格式编码来传送数据，这是针对简单URL编码的MIME类型。</span><br><span class="line">Content-Length说明了请求主体的字节数（即“name=Professional%20Ajax&amp;publisher=Wiley”的长度）</span><br><span class="line">第3行：空白行</span><br><span class="line">第4行：最后请求主体.名称-值对的形式。</span><br><span class="line">--&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>再多记录一个，HTTP响应格式</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--格式--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">status-line</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">headers</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">blank</span> <span class="attr">line</span>&gt;</span></span><br><span class="line">[<span class="tag">&lt;<span class="name">response-body</span>&gt;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--例子--&gt;</span></span><br><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Date: Fri, 22 May 2009 06:07:21 GMT</span><br><span class="line">Content-Type: text/html; charset=UTF-8</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!--body goes here--&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">!-—</span></span><br><span class="line">说明：</span><br><span class="line"><span class="attr">HTTP</span>状态码<span class="attr">200</span>,找到资源,并且一切正常。</span><br><span class="line"><span class="attr">Date</span>：生成响应的日期和时间。</span><br><span class="line"><span class="attr">Content-Type:</span>指定了<span class="attr">MIME</span>类型的<span class="attr">HTML</span>(<span class="attr">text</span>/<span class="attr">html</span>),编码类型是<span class="attr">UTF-8</span></span><br><span class="line"><span class="attr">HTML</span>源文体。</span><br><span class="line"><span class="attr">--</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>我这里的疑惑就是在于 <strong>Content-Type</strong> 的差别是的什么?   </p>
+<p><strong>Content-Type</strong> 有四类：  </p>
+<ol>
+<li>www-form-urlencoded，常见的form提交  </li>
+<li>form-data，文件提交  </li>
+<li>application/json，提交json格式的数据  </li>
+<li>text/xml，提交xml格式的数据  </li>
+</ol>
+<blockquote>
+<p>jquery默认的 content-Type配置的是 application/x-www-form-urlencoded</p>
+</blockquote>
+<p>Express 依靠 <code>bodyParser</code> 来解析请求包，默认支持的格式有：application/json，application/x-www-form-urlencoded，multipart/form-data，对 xml 没有支持。  </p>
+<h4 id="www-form-urlencoded"><a href="#www-form-urlencoded" class="headerlink" title="www-form-urlencoded"></a>www-form-urlencoded</h4><p>http 默认的 post 请求是这种方式，例如你写一个 <code>&lt;form&gt;....&lt;input type=&quot;submite&quot; /&gt;&lt;/form&gt;</code> form表单，里面的submite按钮默认就是这种 <code>www-form-urlencoded</code> 方式提交的。提交的数据按照 key1=val1&amp;key2=val2 的方式进行编码，key 和 val 都进行了 URL 转码  </p>
+<p>对应 Express 里的接收 <code>req.body</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">router.post(<span class="string">'/add'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(req.body);</span><br><span class="line">    res.send(&#123;success: <span class="literal">true</span>&#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="form-data"><a href="#form-data" class="headerlink" title="form-data"></a>form-data</h4><p>和 <strong>www-form-urlencoded</strong> 不同之处在于 form 表单里需要有 enctype 标识。<br>比如上传文件，必须在form标签里做这样的标识 <code>enctype=&quot;multipart/form-data&quot;</code></p>
+<p>请求格式如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">POST http://www.example.com HTTP/1.1</span><br><span class="line">Content-Type:multipart/form-data; boundary=----WebKitFormBoundaryrGKCBY7qhFd3TrwA</span><br><span class="line"></span><br><span class="line">------WebKitFormBoundaryrGKCBY7qhFd3TrwA</span><br><span class="line">Content-Disposition: form-data; name="text"</span><br><span class="line"></span><br><span class="line">title</span><br><span class="line">------WebKitFormBoundaryrGKCBY7qhFd3TrwA</span><br><span class="line">Content-Disposition: form-data; name="file"; filename="chrome.png"</span><br><span class="line">Content-Type: image/png</span><br><span class="line"></span><br><span class="line">PNG ... content of chrome.png ...</span><br><span class="line">------WebKitFormBoundaryrGKCBY7qhFd3TrwA--</span><br></pre></td></tr></table></figure>
+<p>首先，生成一个 boundary 用于分割不同的字段，为了避免与正文内容重复，boundary 很长很复杂。然后 Content-Type 里指明了数据是以 multipart/form-data 来编码，本次请求的 boundary 是什么内容。消息主体里按照字段个数又分为多个结构类似的部分，每部分都是以 –boundary 开始，紧接着是内容描述信息，然后是回车，最后是字段具体内容（文本或二进制）。如果传输的是文件，还要包含文件名和文件类  </p>
+<p>nodejs在处理这类表单提交时，需要另外一个中间件 <strong><a href="https://github.com/andrewrk/connect-multiparty" target="_blank" rel="external">connect-multiparty</a></strong>，他是专门处理此类 post 数据相关的依赖包。   </p>
+<p>Express 接收方式如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> multipart = <span class="built_in">require</span>(<span class="string">'connect-multiparty'</span>);</span><br><span class="line"><span class="keyword">var</span> multipartMiddleware = multipart();</span><br><span class="line"></span><br><span class="line">app.post(<span class="string">'/uploadFile'</span>, multipartMiddleware, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(req.body);</span><br><span class="line">	res.send(req.body);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>现阶段标准中原生 \<form\> 表单也只支持这两种方式（通过 \<form\> 元素的 <code>enctype</code> 属性指定，默认为 <code>application/x-www-form-urlencoded</code>  </form\></form\></p>
+</blockquote>
+<h4 id="application-json"><a href="#application-json" class="headerlink" title="application/json"></a>application/json</h4><p>bodyParser 支持此类参数解析。<br><strong>注意</strong>：在提交之前需要指定 http 请求头为 <code>content-type=application/json</code>。<br>请求结构如下 ： </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">POST /conferenceServer/add? HTTP/1.1</span><br><span class="line">Host: localhost:3000</span><br><span class="line">Content-Type: application/json</span><br><span class="line">Cache-Control: no-cache</span><br><span class="line">Postman-Token: baf71016-20e4-7e65-f672-33c146bb9497</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    "aaa": 1111,</span><br><span class="line">    "bbb": 222</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Express 接收方式如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">app.post(<span class="string">'/json'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(req.body);</span><br><span class="line">	res.send(req.body);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="text-xml"><a href="#text-xml" class="headerlink" title="text/xml"></a>text/xml</h4><p>不常见，Express 暂时只能自己用代码处理，把请求体参数按照字符串读取出来，然后使用 xml2json 包把字符串解析成json对象。  </p>
+<p><strong>实现思路：</strong></p>
+<ol>
+<li>使用 body-parse 得到字符串。然后再转化  </li>
+<li>xml格式请求需要指定 http 请求头 content-type=text/xml  </li>
+<li>利用req上定义的事件 data 来获取http请求流, end 事件结束请求流的处理.  </li>
+<li>利用 xml2json 把上面得到的请求参数流(我们直接转化为字符串)转化为 json 对象.</li>
+</ol>
+<p>请求格式如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">POST /conferenceServer/add? HTTP/1.1</span><br><span class="line">Host: localhost:3000</span><br><span class="line">Content-Type: text/xml</span><br><span class="line">Cache-Control: no-cache</span><br><span class="line">Postman-Token: 9a31bd8f-b7dd-a31c-f09d-7e55c8b8b1d1</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">aaa</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">b</span>&gt;</span>111<span class="tag">&lt;/<span class="name">b</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">aaa</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Express 接收方式如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">var</span> bodyParser = <span class="built_in">require</span>(<span class="string">'body-parser'</span>);</span><br><span class="line"><span class="keyword">var</span> xml2json = <span class="built_in">require</span>(<span class="string">'xml2json'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line"><span class="keyword">var</span> server = <span class="built_in">require</span>(<span class="string">'http'</span>).createServer(app);</span><br><span class="line"></span><br><span class="line">app.use(bodyParser.urlencoded(&#123;</span><br><span class="line">    extended: <span class="literal">true</span></span><br><span class="line">&#125;));</span><br><span class="line"></span><br><span class="line">app.post(<span class="string">'/xml'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">    req.rawBody = <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">var</span> json = &#123;&#125;;</span><br><span class="line">    req.setEncoding(<span class="string">'utf8'</span>);</span><br><span class="line"></span><br><span class="line">    req.on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">chunk</span>) </span>&#123;</span><br><span class="line">        req.rawBody += chunk;</span><br><span class="line">    &#125;);</span><br><span class="line">    req.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        json = xml2json.toJson(req.rawBody);</span><br><span class="line">        res.send(<span class="built_in">JSON</span>.stringify(json));</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong></p>
+<ol>
+<li>这里使用了 <code>bodyParser.urlencoded({ extended: true });</code>，而这个已经不被推荐</li>
+</ol>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考：  "></a>参考：  </h2><ol>
+<li><a href="http://www.cnblogs.com/shaoge/archive/2009/08/14/1546019.html" target="_blank" rel="external">http://www.cnblogs.com/shaoge/archive/2009/08/14/1546019.html</a>  </li>
+<li><a href="http://yijiebuyi.com/blog/90c1381bfe0efb94cf9df932147552be.html" target="_blank" rel="external">http://yijiebuyi.com/blog/90c1381bfe0efb94cf9df932147552be.html</a>  </li>
+<li><a href="http://www.tuicool.com/articles/beEJ32a" target="_blank" rel="external">http://www.tuicool.com/articles/beEJ32a</a>  </li>
+<li><a href="https://imququ.com/post/four-ways-to-post-data-in-http.html#comments" target="_blank" rel="external">https://imququ.com/post/four-ways-to-post-data-in-http.html#comments</a></li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/express4/" rel="tag">#express4</a>
+          
+            <a href="/tags/node-js/" rel="tag">#node.js</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/18/当React.js遇到ES6/" rel="next" title="当React.js遇到ES6">
+                <i class="fa fa-chevron-left"></i> 当React.js遇到ES6
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/06/19/Webstorm10无法调试5版nodejs/" rel="prev" title="Webstorm10无法调试5版nodejs">
+                Webstorm10无法调试5版nodejs <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Re" />
+          <p class="site-author-name" itemprop="name">Re</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/remotesc2" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/XXX" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#从0开始用Express"><span class="nav-number">1.</span> <span class="nav-text">从0开始用Express</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#盲点"><span class="nav-number">1.1.</span> <span class="nav-text">盲点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#到底http中的post请求分为几种？"><span class="nav-number">1.1.1.</span> <span class="nav-text">到底http中的post请求分为几种？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#www-form-urlencoded"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">www-form-urlencoded</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#form-data"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">form-data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#application-json"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">application/json</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#text-xml"><span class="nav-number">1.1.1.4.</span> <span class="nav-text">text/xml</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考："><span class="nav-number">1.2.</span> <span class="nav-text">参考：  </span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Re</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
