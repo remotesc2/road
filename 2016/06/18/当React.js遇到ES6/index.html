@@ -1,0 +1,729 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="react.js,es6," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="虽然很早以前就知道了React.js，但是最近才下手使用。结果一上来就直接晕菜（ es5 or es6 ）都2016年了，况且还是自己瞎捣鼓的项目，怎么可能还用es5？所以，……  
+component &amp;amp; 组件React.js就是将一个个功能点封装成component，即组件，然后像普通HTML标签一样使用。在网上看到的大部分教程里都还是使用React.createClass()来创建组">
+<meta property="og:type" content="article">
+<meta property="og:title" content="当React.js遇到ES6">
+<meta property="og:url" content="http://yoursite.com/2016/06/18/当React.js遇到ES6/index.html">
+<meta property="og:site_name" content="Re的废话流">
+<meta property="og:description" content="虽然很早以前就知道了React.js，但是最近才下手使用。结果一上来就直接晕菜（ es5 or es6 ）都2016年了，况且还是自己瞎捣鼓的项目，怎么可能还用es5？所以，……  
+component &amp;amp; 组件React.js就是将一个个功能点封装成component，即组件，然后像普通HTML标签一样使用。在网上看到的大部分教程里都还是使用React.createClass()来创建组">
+<meta property="og:updated_time" content="2016-06-19T04:23:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="当React.js遇到ES6">
+<meta name="twitter:description" content="虽然很早以前就知道了React.js，但是最近才下手使用。结果一上来就直接晕菜（ es5 or es6 ）都2016年了，况且还是自己瞎捣鼓的项目，怎么可能还用es5？所以，……  
+component &amp;amp; 组件React.js就是将一个个功能点封装成component，即组件，然后像普通HTML标签一样使用。在网上看到的大部分教程里都还是使用React.createClass()来创建组">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/06/18/当React.js遇到ES6/"/>
+
+  <title> 当React.js遇到ES6 | Re的废话流 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Re的废话流</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                当React.js遇到ES6
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-18T14:57:27+08:00" content="2016-06-18">
+              2016-06-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/学习/" itemprop="url" rel="index">
+                    <span itemprop="name">学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/学习/front-end/" itemprop="url" rel="index">
+                    <span itemprop="name">front-end</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/学习/front-end/react-js/" itemprop="url" rel="index">
+                    <span itemprop="name">react.js</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>虽然很早以前就知道了React.js，但是最近才下手使用。结果一上来就直接晕菜（ es5 or es6 ）<br>都2016年了，况且还是自己瞎捣鼓的项目，怎么可能还用es5？<br>所以，……  </p>
+<h1 id="component-amp-组件"><a href="#component-amp-组件" class="headerlink" title="component &amp; 组件"></a>component &amp; 组件</h1><p>React.js就是将一个个功能点封装成component，即组件，然后像普通HTML标签一样使用。在网上看到的大部分教程里都还是使用<code>React.createClass()</code>来创建组件  </p>
+<a id="more"></a>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ES5</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Photo</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;  </span><br><span class="line">	handleSomething: <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123; ... &#125;,</span><br><span class="line">	render: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; ... &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//ES6</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Photo</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">	handleSomething(e) &#123; ... &#125;</span><br><span class="line">	render() &#123; ... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h1><p>React.js将组建划分为三种状态：  </p>
+<ol>
+<li>Mounting：已插入真实 DOM  </li>
+<li>Updating：正在被重新渲染  </li>
+<li>Unmounting：已移出真实 DOM  </li>
+</ol>
+<p>每种状态对应两个处理函数，分为进入状态前调用–will，进入状态后调用–did：  </p>
+<ol>
+<li>componentWillMount()  </li>
+<li>componentDidMount()</li>
+<li>componentWillUpdate(object nextProps, object nextState)  </li>
+<li>componentDidUpdate(object prevProps, object prevState)  </li>
+<li>componentWillUnmount()  </li>
+</ol>
+<p>所有函数在es5和es6中都可以直接使用，不过<code>componentWillMount</code>在es6中可被<code>constructor</code>代替</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// The ES5 way</span></span><br><span class="line"><span class="keyword">var</span> EmbedModal = React.createClass(&#123;</span><br><span class="line">  	componentWillMount: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; … &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// The ES6+ way</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EmbedModal</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">	<span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">		<span class="keyword">super</span>(props);</span><br><span class="line">		<span class="comment">// 通常在componentwillmount当中的操作，可放到这里...</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="有几个关键点"><a href="#有几个关键点" class="headerlink" title="有几个关键点"></a>有几个关键点</h2><ol>
+<li>componentWillMount 用来处理render之前的逻辑  </li>
+<li>不要在render中处理业务逻辑，即一定不能出现改变 state 的操作  </li>
+<li>componentDidMount 中处理和真实DOM相关的逻辑，典型的场景：在这里调用ajax，使用jQuery  </li>
+</ol>
+<h2 id="实例化组件的过程"><a href="#实例化组件的过程" class="headerlink" title="实例化组件的过程"></a>实例化组件的过程</h2><ol>
+<li>getInitialState: 获取 this.state 的默认值</li>
+<li>componentWillMount: 在render之前调用此方法，在render之前需要做的事情就在这里处理</li>
+<li>render: 渲染并返回一个虚拟DOM</li>
+<li>componentDidMount: 在render之后，react会使用render返回的虚拟DOM来创建真实DOM，完成之后调用此方法。  </li>
+</ol>
+<h2 id="更新组件的过程"><a href="#更新组件的过程" class="headerlink" title="更新组件的过程"></a>更新组件的过程</h2><ol>
+<li>componentWillRecieveProps:   父组件或者通过组件的实例调用 setProps 改变当前组件的 props 时调用。</li>
+<li>shouldComponentUpdate: 是否需要更新，慎用</li>
+<li>componentWillUpdate: 调用 render方之前</li>
+<li>render: </li>
+<li>componentDidUpdate: 真实DOM已经完成更新。  </li>
+</ol>
+<h1 id="属性初始化"><a href="#属性初始化" class="headerlink" title="属性初始化"></a>属性初始化</h1><p>React.js的组件有两个属性 <strong>props</strong> ， <strong>state</strong> 。  </p>
+<blockquote>
+<p>原文博主划分的更细：<br><strong>props</strong> 分为属性（prop type），默认属性（default prop）。<br><strong>state</strong> 分为初始状态(initial state)。  </p>
+</blockquote>
+<p>区别：<br><strong>props</strong> 代表固有属性，改变时不会触发视图重新渲染，可通过es6类中的<code>static</code>来声明。<br><strong>state</strong> 代表组件状态，对于<strong>初始状态（initial state）</strong>可以通过ES7当中的属性初始化（property initializers）来实现，并在在随后的组件使用中，不允许直接对<strong>state</strong>进行修改（除了初始化阶段），只能通过<code>this.setState() { ... }</code>来更新状态  </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// The ES5 way</span></span><br><span class="line"><span class="keyword">var</span> Video = React.createClass(&#123;</span><br><span class="line">    <span class="comment">//初始化默认props</span></span><br><span class="line">    getDefaultProps: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            autoPlay: <span class="literal">false</span>,</span><br><span class="line">            maxLoops: <span class="number">10</span>,</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">//初始化state</span></span><br><span class="line">    getInitialState: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            loopsRemaining: <span class="keyword">this</span>.props.maxLoops,</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">    propTypes: &#123;</span><br><span class="line">        autoPlay: React.PropTypes.bool.isRequired,</span><br><span class="line">        maxLoops: React.PropTypes.number.isRequired,</span><br><span class="line">        posterFrameSrc: React.PropTypes.string.isRequired,</span><br><span class="line">        videoSrc: React.PropTypes.string.isRequired,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// The ES6+ way</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Video</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="comment">//初始化默认props</span></span><br><span class="line">    <span class="keyword">static</span> defaultProps = &#123;</span><br><span class="line">        autoPlay: <span class="literal">false</span>,</span><br><span class="line">        maxLoops: <span class="number">10</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> propTypes = &#123;</span><br><span class="line">        autoPlay: React.PropTypes.bool.isRequired,</span><br><span class="line">        maxLoops: React.PropTypes.number.isRequired,</span><br><span class="line">        posterFrameSrc: React.PropTypes.string.isRequired,</span><br><span class="line">        videoSrc: React.PropTypes.string.isRequired,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//初始化state</span></span><br><span class="line">    state = &#123;</span><br><span class="line">        loopsRemaining: <span class="keyword">this</span>.props.maxLoops,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于<code>static</code>这里有点说明，它属于es7的标准里的方式，属于超前使用。  </p>
+<blockquote>
+<p>ES7 中在构造函数（ constructor ）下的属性初始化操作中的 this 指向的是类的实例，所以初始状态（ initial state ）可以通过 this.prop （ 即传入的参数 ）来设定。    </p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 这两种形式等价 */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The ES6 way</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Video</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="comment">//somethings</span></span><br><span class="line">&#125;</span><br><span class="line">Video.defaultProps = &#123;</span><br><span class="line">    autoPlay: <span class="literal">false</span>,</span><br><span class="line">    maxLoops: <span class="number">10</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// The ES7 way</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Video</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="comment">//初始化默认props</span></span><br><span class="line">    <span class="keyword">static</span> defaultProps = &#123;</span><br><span class="line">        autoPlay: <span class="literal">false</span>,</span><br><span class="line">        maxLoops: <span class="number">10</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="箭头函数（Arrow-function）"><a href="#箭头函数（Arrow-function）" class="headerlink" title="箭头函数（Arrow function）"></a>箭头函数（Arrow function）</h1><p>对于这一特性的使用，属于有得有失。因为React.js在原先的<code>React.createClass</code>方法中进行了很多额外属性的绑定，其中之一：<code>this</code>在<code>React.createClass</code>方法中指向的是组件的实例化对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Video = React.createClass(&#123;</span><br><span class="line">    <span class="comment">//初始化默认props</span></span><br><span class="line">    handleSomething: <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123; </span><br><span class="line">    	<span class="comment">//this指向的是Video的实例对象</span></span><br><span class="line">		<span class="keyword">this</span>.setState(&#123; open: <span class="literal">false</span> &#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>但是，当我们使用ES6的语法来定义类后，React.js在<code>React.createClass</code>方法中进行的属性绑定都会没有，只能自己进行<code>this</code>绑定</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// The ES6 way</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Video</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="comment">// 手动绑定</span></span><br><span class="line">        <span class="keyword">this</span>.handleOptionsButtonClick = <span class="keyword">this</span>.handleSomething.bind(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    handleSomething(e) &#123;</span><br><span class="line">        <span class="comment">// this指向的是Video的实例对象</span></span><br><span class="line">        <span class="keyword">this</span>.setState(&#123; open: <span class="literal">true</span> &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不过，可以利用ES6中的箭头函数（Arrow function）和属性初始化（ property initializers ）这俩新特性来进行<code>this</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// The ES6 way</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Video</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">    handleSomething = (e) =&gt; &#123;</span><br><span class="line">        <span class="comment">// 这里还有点不明白，箭头函数的this绑定？</span></span><br><span class="line">        <span class="keyword">this</span>.setState(&#123; open: <span class="literal">true</span> &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="析构-amp-扩展运算符"><a href="#析构-amp-扩展运算符" class="headerlink" title="析构 &amp; 扩展运算符"></a>析构 &amp; 扩展运算符</h1><p>总感觉这个特性是ES6里头最麻烦的，这个特性一般使用于属性的传递时。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Video</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">	handlerSomething = (e) =&gt; &#123; ... &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">let</span> &#123;</span><br><span class="line">            className,</span><br><span class="line">            ...others,  <span class="comment">// 包括this.props中除了calssName外的所有属性</span></span><br><span class="line">        &#125; = <span class="keyword">this</span>.props;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&#123;className&#125;</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">PostsGrid</span> &#123;<span class="attr">...others</span>&#125; /&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;this.</span> <span class="attr">handlerSomething</span>&#125;&gt;</span>Load more<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>有一个小技巧，可以利用<strong>扩展运算符属性</strong>和<strong>普通的属性</strong>优先级，来进行属性覆盖  </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//最终得到的class为override，即使this.props中也存在className属性</span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> &#123;<span class="attr">...this.props</span>&#125; <span class="attr">className</span>=<span class="string">"override"</span>&gt;</span> ... <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="字符串模板"><a href="#字符串模板" class="headerlink" title="字符串模板"></a>字符串模板</h1><p>感觉这是平常最有用的一个特性，毕竟经常会碰到字符串拼接的需求</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> inputName = <span class="string">'name'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> className = inputName + <span class="string">'Value'</span>;</span><br><span class="line"><span class="comment">//上下两种形式等价</span></span><br><span class="line"><span class="keyword">let</span> className = <span class="string">`<span class="subst">$&#123;inputName&#125;</span>Value`</span>;</span><br></pre></td></tr></table></figure>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>一些关于React.js的属性说明  </p>
+<h2 id="this-props-children"><a href="#this-props-children" class="headerlink" title="this.props.children"></a>this.props.children</h2><p>本身<code>this.props</code>对象的属性与组件的属性一一对应，但是有一个例外，就是 <code>this.props.children</code>属性。它表示组件的所有子节点。<br><code>this.props.children</code>的值可能有三种可能：  </p>
+<ol>
+<li>如果当前组件没有子节点，它就是 <code>undefined</code>。  </li>
+<li>如果有一个子节点，数据类型是 <code>object</code>。  </li>
+<li>如果有多个子节点，数据类型就是 <code>array</code>。<br>所以，最好使用React.js提供的<code>React.Children</code>来处理<code>this.props.children</code>，<code>React.Children</code>永远都是 <code>array</code>。</li>
+</ol>
+<h2 id="PropTypes"><a href="#PropTypes" class="headerlink" title="PropTypes"></a>PropTypes</h2><p>组件的属性验证</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// The ES5 way</span></span><br><span class="line"><span class="keyword">var</span> Video = React.createClass(&#123;</span><br><span class="line">    propTypes: &#123;</span><br><span class="line">        autoPlay: React.PropTypes.bool.isRequired,</span><br><span class="line">        maxLoops: React.PropTypes.number.isRequired,</span><br><span class="line">        posterFrameSrc: React.PropTypes.string.isRequired,</span><br><span class="line">        videoSrc: React.PropTypes.string.isRequired,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// The ES6+ way</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Video</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> propTypes = &#123;</span><br><span class="line">        autoPlay: React.PropTypes.bool.isRequired,</span><br><span class="line">        maxLoops: React.PropTypes.number.isRequired,</span><br><span class="line">        posterFrameSrc: React.PropTypes.string.isRequired,</span><br><span class="line">        videoSrc: React.PropTypes.string.isRequired,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="string">``</span><span class="string">`  </span><br><span class="line"></span><br><span class="line">## 获取真实的DOM节点</span><br><span class="line"></span><br><span class="line">组件并不是真实的 DOM 节点，而是React.js中最核心的虚拟 DOM (virtual DOM)，只有当它插入HTML文档后，才会变成真是的DOM，对应React.js中的 `</span>componentDidMount<span class="string">` </span><br><span class="line"></span><br><span class="line">`</span><span class="string">``</span> javascript</span><br><span class="line"><span class="keyword">var</span> Vedio = React.createClass(&#123;</span><br><span class="line">    handleClick: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.refs.myTextInput.focus();</span><br><span class="line">    &#125;,</span><br><span class="line">    render: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	    <span class="keyword">return</span> (</span><br><span class="line">	        &lt;div&gt;</span><br><span class="line">	            &lt;input type="text" ref="myTextInput" /&gt;</span><br><span class="line">	            &lt;input type="button" value="Focus the text input" onClick=&#123;this.handleClick&#125; /&gt;</span><br><span class="line">	        &lt;/div&gt;</span><br><span class="line">	    );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="表单"><a href="#表单" class="headerlink" title="表单"></a>表单</h2><p>表单填入这个行为属于用户跟组件的互动，所以不能用 <code>this.props</code> </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Video</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    state = &#123; value: <span class="string">'Hello!'</span> &#125;</span><br><span class="line">    handleChange = (e) =&gt; &#123; </span><br><span class="line">        <span class="keyword">this</span>.setState(&#123; value: e.target.value &#125;) </span><br><span class="line">    &#125;</span><br><span class="line">    render: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> value = <span class="keyword">this</span>.state.value;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">value</span>=<span class="string">&#123;value&#125;</span> <span class="attr">onChange</span>=<span class="string">&#123;this.handleChange&#125;</span> /&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;value&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
+<li><a href="http://blog.mcbird.cn/2015/09/11/react-on-es6-plus/" target="_blank" rel="external">http://blog.mcbird.cn/2015/09/11/react-on-es6-plus/</a>  </li>
+<li><a href="http://blog.csdn.net/lihongxun945/article/details/46334379/" target="_blank" rel="external">http://blog.csdn.net/lihongxun945/article/details/46334379/</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2015/03/react" target="_blank" rel="external">http://www.ruanyifeng.com/blog/2015/03/react</a></li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/react-js/" rel="tag">#react.js</a>
+          
+            <a href="/tags/es6/" rel="tag">#es6</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/17/部署hexo的基本命令/" rel="next" title="Hexo常用命令">
+                <i class="fa fa-chevron-left"></i> Hexo常用命令
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/06/19/Express4xx不懂（一）/" rel="prev" title="Express4xx不懂（一）">
+                Express4xx不懂（一） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Re" />
+          <p class="site-author-name" itemprop="name">Re</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/remotesc2" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/XXX" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#component-amp-组件"><span class="nav-number">1.</span> <span class="nav-text">component & 组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生命周期"><span class="nav-number">2.</span> <span class="nav-text">生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#有几个关键点"><span class="nav-number">2.1.</span> <span class="nav-text">有几个关键点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例化组件的过程"><span class="nav-number">2.2.</span> <span class="nav-text">实例化组件的过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新组件的过程"><span class="nav-number">2.3.</span> <span class="nav-text">更新组件的过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#属性初始化"><span class="nav-number">3.</span> <span class="nav-text">属性初始化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#箭头函数（Arrow-function）"><span class="nav-number">4.</span> <span class="nav-text">箭头函数（Arrow function）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#析构-amp-扩展运算符"><span class="nav-number">5.</span> <span class="nav-text">析构 & 扩展运算符</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#字符串模板"><span class="nav-number">6.</span> <span class="nav-text">字符串模板</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他"><span class="nav-number">7.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#this-props-children"><span class="nav-number">7.1.</span> <span class="nav-text">this.props.children</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PropTypes"><span class="nav-number">7.2.</span> <span class="nav-text">PropTypes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表单"><span class="nav-number">7.3.</span> <span class="nav-text">表单</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">8.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Re</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
